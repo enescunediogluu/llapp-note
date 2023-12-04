@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "598249401978",
+    "project_id": "llapp-notes",
+    "storage_bucket": "llapp-notes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598249401978:android:84cdad7bf5908af38395c3",
+        "android_client_info": {
+          "package_name": "com.example.llapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1Yx_r3HdJM35KDtrkXcRcE1wHLkA4mZ4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
