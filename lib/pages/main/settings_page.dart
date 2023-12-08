@@ -60,7 +60,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               const SizedBox(height: 20),
               const ModifiedText(
-                text: "Isa Koral",
+                text: "İsa Koral",
                 fontSize: 38,
                 fontWeight: FontWeight.w700,
               ),
