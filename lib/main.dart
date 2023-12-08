@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         home: AuthChecker());
@@ -39,7 +39,6 @@ class _AuthCheckerState extends State<AuthChecker> {
     return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
-        print('Auth state changed: $snapshot');
         if (snapshot.connectionState == ConnectionState.waiting) {
           // You might want to show a loading indicator here.
           return const CircularProgressIndicator();

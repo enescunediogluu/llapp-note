@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:llapp/constants/colors.dart';
-import 'package:llapp/pages/auth/login_page.dart';
 import 'package:llapp/pages/main/notes_page.dart';
 import 'package:llapp/services/auth_service.dart';
 import 'package:llapp/widgets/auth_widgets/text_field_widget.dart';
@@ -116,9 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     )),
                 TextButton(
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ));
+                      Navigator.of(context).pop();
                     },
                     child: const ModifiedText(
                       text: "Already have an account?",
