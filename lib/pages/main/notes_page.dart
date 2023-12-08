@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:llapp/constants/colors.dart';
-import 'package:llapp/pages/auth/login_page.dart';
-import 'package:llapp/services/auth_service.dart';
+import 'package:llapp/pages/main/create_or_edit_notes_page.dart';
+import 'package:llapp/pages/main/settings_page.dart';
 import 'package:llapp/widgets/general_widgets.dart/logo_widget.dart';
 import 'package:llapp/widgets/general_widgets.dart/modified_text.dart';
 
@@ -17,8 +17,20 @@ class NotesPage extends StatefulWidget {
 class _NotesPageState extends State<NotesPage> {
   @override
   Widget build(BuildContext context) {
-    final AuthService auth = AuthService();
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor,
+        child: const Icon(
+          Icons.add,
+          size: 40,
+          color: secondaryColor,
+        ),
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const CreateNotePage(),
+          ));
+        },
+      ),
       backgroundColor: scaffolBackgroundColor,
       appBar: AppBar(
         actions: [
@@ -30,7 +42,11 @@ class _NotesPageState extends State<NotesPage> {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const CreateNotePage(),
+              ));
+            },
             icon: const Icon(
               Icons.edit_document,
               color: secondaryColor,
@@ -38,12 +54,9 @@ class _NotesPageState extends State<NotesPage> {
           ),
           IconButton(
             onPressed: () async {
-              await auth.signOut();
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => const LoginPage(),
-                  ),
-                  (route) => false);
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const SettingsPage(),
+              ));
             },
             icon: const Icon(
               Icons.settings_outlined,

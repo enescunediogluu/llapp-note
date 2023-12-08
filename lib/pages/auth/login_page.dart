@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:llapp/constants/colors.dart';
-
 import 'package:llapp/pages/auth/register_page.dart';
 import 'package:llapp/pages/main/notes_page.dart';
 import 'package:llapp/services/auth_service.dart';

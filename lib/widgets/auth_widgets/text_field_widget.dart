@@ -20,6 +20,8 @@ class TextFieldWidget extends StatefulWidget {
 }
 
 class _TextFieldWidgetState extends State<TextFieldWidget> {
+  bool showPassword = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -39,9 +41,21 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           onChanged: widget.onChanged,
           keyboardType: widget.textInputType,
           cursorColor: primaryColor,
-          obscureText: widget.obscureText!,
-          decoration: const InputDecoration(
+          obscureText: widget.obscureText! ? !showPassword : showPassword,
+          decoration: InputDecoration(
             border: InputBorder.none,
+            suffixIcon: widget.obscureText!
+                ? IconButton(
+                    icon: showPassword
+                        ? const Icon(Icons.remove_red_eye_outlined)
+                        : const Icon(Icons.remove_red_eye),
+                    onPressed: () {
+                      setState(() {
+                        showPassword = !showPassword;
+                      });
+                    },
+                  )
+                : null,
           ),
         ),
       ),

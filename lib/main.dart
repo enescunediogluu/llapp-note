@@ -20,9 +20,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        home: AuthChecker());
+      debugShowCheckedModeBanner: false,
+      home: AuthChecker(),
+    );
   }
 }
 
@@ -40,10 +40,8 @@ class _AuthCheckerState extends State<AuthChecker> {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // You might want to show a loading indicator here.
           return const CircularProgressIndicator();
         }
-
         User? user = snapshot.data;
         if (user != null) {
           return const NotesPage();
