@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:llapp/constants/colors.dart';
 import 'package:llapp/pages/auth/register_page.dart';
@@ -56,15 +58,19 @@ class _LoginPageState extends State<LoginPage> {
                   email,
                   password,
                 );
-                if (result != true) {
-                  return messagedFeedback(result);
-                } else {
-                  //temporary solution
+                if (result == true) {
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (context) => const NotesPage(),
                     ),
                     (route) => false,
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: primaryColor,
+                      content: Text(result.toString()),
+                    ),
                   );
                 }
               },

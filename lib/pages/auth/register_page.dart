@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:llapp/constants/colors.dart';
@@ -91,18 +93,26 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 40),
                 ElevatedButton(
                     onPressed: () async {
-                      await auth.signUpWithEmailAndPassword(
+                      final result = await auth.signUpWithEmailAndPassword(
                         email,
                         password,
+                        fullName,
                       );
-
-                      // ignore: use_build_context_synchronously
-                      Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                          builder: (context) => const NotesPage(),
-                        ),
-                        (route) => false,
-                      );
+                      if (result == true) {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => const NotesPage(),
+                          ),
+                          (route) => false,
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: primaryColor,
+                            content: Text(result.toString()),
+                          ),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: primaryColor,

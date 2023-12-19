@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:llapp/constants/colors.dart';
+import 'package:llapp/services/database_service.dart';
 import 'package:llapp/widgets/general_widgets.dart/modified_text.dart';
 
 class CreateNotePage extends StatefulWidget {
@@ -11,11 +13,25 @@ class CreateNotePage extends StatefulWidget {
 }
 
 class _CreateNotePageState extends State<CreateNotePage> {
+  final DatabaseService db =
+      DatabaseService(FirebaseAuth.instance.currentUser!.uid);
+  String title = "";
+  String text = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: scaffolBackgroundColor,
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () async {
+                  await db.createNewNote(title, text);
+                },
+                icon: const Icon(
+                  Icons.save,
+                  color: secondaryColor,
+                ))
+          ],
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,
@@ -38,6 +54,9 @@ class _CreateNotePageState extends State<CreateNotePage> {
             children: [
               const SizedBox(height: 10),
               TextField(
+                onChanged: (value) {
+                  title = value;
+                },
                 cursorColor: primaryColor,
                 style: GoogleFonts.nunito(
                     color: secondaryColor,
@@ -47,13 +66,16 @@ class _CreateNotePageState extends State<CreateNotePage> {
                   border: InputBorder.none,
                   hintText: "Title",
                   hintStyle: GoogleFonts.nunito(
-                      color: secondaryColor.withOpacity(0.4), fontSize: 22),
+                      color: secondaryColor.withOpacity(0.2), fontSize: 18),
                 ),
               ),
               Divider(
                 color: secondaryColor.withOpacity(0.1),
               ),
               TextField(
+                onChanged: (value) {
+                  text = value;
+                },
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 cursorColor: primaryColor,
@@ -61,7 +83,12 @@ class _CreateNotePageState extends State<CreateNotePage> {
                     color: secondaryColor,
                     fontSize: 18,
                     fontWeight: FontWeight.w600),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
+                  hintText: "Start typing...",
+                  hintStyle: GoogleFonts.nunito(
+                    color: secondaryColor.withOpacity(0.2),
+                    fontSize: 18,
+                  ),
                   border: InputBorder.none,
                 ),
               )
