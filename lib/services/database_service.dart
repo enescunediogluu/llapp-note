@@ -53,7 +53,9 @@ class DatabaseService {
         "text": text,
         "createdDate":
             DateTime.now(), // You can change this to a timestamp if needed
-        "userId": uid, // Use the uid property of your DatabaseService instance
+        "userId": uid,
+        "noteId":
+            noteRef.id // Use the uid property of your DatabaseService instance
       };
       await noteRef.set(noteData);
 
@@ -84,5 +86,23 @@ class DatabaseService {
     }
   }
 
-  // i need to display the notes in notes list view
+  //delete the notes in firebase
+  Future<dynamic> deleteNote(String noteId) async {
+    try {
+      // Delete the note document from the notes collection
+      await notesCollection.doc(noteId).delete();
+
+      // Update the user's notes list by removing the deleted note ID
+      final userRef = usersCollection.doc(uid);
+      await userRef.update({
+        "notes": FieldValue.arrayRemove([noteId])
+      });
+
+      return true; // Success
+    } on Exception catch (e) {
+      // Handle any errors
+      print("Error deleting note: $e");
+      return "Error deleting note!"; // Indicate failure
+    }
+  }
 }

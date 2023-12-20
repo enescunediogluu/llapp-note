@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:llapp/constants/colors.dart';
+import 'package:llapp/pages/main/notes_page.dart';
 import 'package:llapp/services/database_service.dart';
 import 'package:llapp/widgets/general_widgets.dart/modified_text.dart';
 
@@ -30,7 +31,11 @@ class _CreateNotePageState extends State<CreateNotePage> {
                 onPressed: () async {
                   final result = await db.createNewNote(title, text);
 
-                  Navigator.of(context).pop();
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => NotesPage()),
+                    (route) => false,
+                  );
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text(result),
                     backgroundColor: Colors.green,
@@ -52,7 +57,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
           ),
           backgroundColor: scaffolBackgroundColor,
           title: const ModifiedText(
-            text: "Edit Note",
+            text: "Create Note",
             fontWeight: FontWeight.w900,
           ),
           centerTitle: true,
