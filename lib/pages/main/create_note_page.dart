@@ -33,7 +33,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
 
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => NotesPage()),
+                    MaterialPageRoute(builder: (context) => const NotesPage()),
                     (route) => false,
                   );
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(

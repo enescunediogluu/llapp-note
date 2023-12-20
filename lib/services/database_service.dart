@@ -100,9 +100,7 @@ class DatabaseService {
 
       return true; // Success
     } on Exception catch (e) {
-      // Handle any errors
-      print("Error deleting note: $e");
-      return "Error deleting note!"; // Indicate failure
+      return "${e.toString()} Error deleting note!"; // Indicate failure
     }
   }
 }
