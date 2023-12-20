@@ -23,6 +23,7 @@ class ModifiedText extends StatelessWidget {
     return Text(
       text,
       textAlign: textAlign,
+      overflow: TextOverflow.clip,
       style: GoogleFonts.nunito(
         fontWeight: fontWeight,
         fontSize: fontSize,

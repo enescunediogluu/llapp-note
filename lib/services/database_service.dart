@@ -44,30 +44,40 @@ class DatabaseService {
     String title,
     String text,
   ) async {
-    final noteRef = notesCollection.doc();
-    final userRef = usersCollection.doc(uid);
+    try {
+      final noteRef = notesCollection.doc();
+      final userRef = usersCollection.doc(uid);
 
-    final noteData = {
-      "title": title,
-      "text": text,
-      "createdDate":
-          DateTime.now(), // You can change this to a timestamp if needed
-      "userId": uid, // Use the uid property of your DatabaseService instance
-    };
-    await noteRef.set(noteData);
+      final noteData = {
+        "title": title,
+        "text": text,
+        "createdDate":
+            DateTime.now(), // You can change this to a timestamp if needed
+        "userId": uid, // Use the uid property of your DatabaseService instance
+      };
+      await noteRef.set(noteData);
 
-    final noteId = noteRef.id;
-    await userRef.update({
-      "notes": FieldValue.arrayUnion([noteId])
-    });
+      final noteId = noteRef.id;
+      await userRef.update({
+        "notes": FieldValue.arrayUnion([noteId])
+      });
+
+      return "The note has been saved succesffuly!";
+    } on Exception catch (e) {
+      return e.toString();
+    }
   }
 
   //returns the list of notes
   Future<List> getNotes() async {
     DocumentSnapshot doc = await usersCollection.doc(uid).get();
-
     if (doc.exists) {
-      List notes = doc.get("notes");
+      List noteIds = doc.get("notes");
+      List notes = [];
+      for (var id in noteIds) {
+        DocumentSnapshot note = await notesCollection.doc(id).get();
+        notes.add(note);
+      }
       return notes;
     } else {
       return [];

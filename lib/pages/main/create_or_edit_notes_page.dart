@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +19,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
       DatabaseService(FirebaseAuth.instance.currentUser!.uid);
   String title = "";
   String text = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +28,13 @@ class _CreateNotePageState extends State<CreateNotePage> {
           actions: [
             IconButton(
                 onPressed: () async {
-                  await db.createNewNote(title, text);
+                  final result = await db.createNewNote(title, text);
+
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(result),
+                    backgroundColor: Colors.green,
+                  ));
                 },
                 icon: const Icon(
                   Icons.save,
