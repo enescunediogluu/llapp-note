@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 class DatabaseService {
   final String uid;
   DatabaseService(this.uid);
 
   User? user = FirebaseAuth.instance.currentUser;
+  String imageUrl = "";
 
   //references of our collections
 
@@ -85,6 +90,23 @@ class DatabaseService {
     }
   }
 
+  //update the user info
+  Future updateUserInfo(
+    String fullName,
+    String userId,
+    String profilePic,
+  ) async {
+    try {
+      DocumentReference docRef = usersCollection.doc(userId);
+      await docRef.update({
+        "fullName": fullName,
+        "profilePic": profilePic,
+      });
+    } catch (e) {
+      return "There is an error occurred while updating the user info!";
+    }
+  }
+
   //returns the list of notes
   Future<List> getNotes() async {
     DocumentSnapshot doc = await usersCollection.doc(uid).get();
@@ -98,6 +120,50 @@ class DatabaseService {
       return notes;
     } else {
       return [];
+    }
+  }
+
+  //adding a profile photo
+  Future<void> updateTheProfilePhoto() async {
+    try {
+      final imagePicker = ImagePicker();
+      final XFile? pickedFile =
+          await imagePicker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        final uniqueFileName = DateTime.now().millisecondsSinceEpoch.toString();
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('profilePhotos')
+            .child(uniqueFileName);
+
+        try {
+          await storageRef.putFile(File(pickedFile.path));
+          final imageUrl = await storageRef.getDownloadURL();
+          await usersCollection.doc(uid).update({'profilePic': imageUrl});
+        } on FirebaseException catch (e) {
+          // Handle storage errors
+          print('Error uploading image: $e');
+          // Inform the user about the error
+        }
+      } else {
+        // Handle the case where no image was selected
+        await usersCollection.doc(uid).update({'profilePic': ''});
+      }
+    } catch (e) {
+      // Handle general errors
+      print('Error updating profile photo: $e');
+      // Inform the user about the error
+    }
+  }
+
+  //get user info
+  Future getUserInfo(String userId) async {
+    try {
+      DocumentSnapshot user = await usersCollection.doc(userId).get();
+      return user;
+    } catch (e) {
+      return "An error occurred!";
     }
   }
 

@@ -7,12 +7,14 @@ class TextFieldWidget extends StatefulWidget {
   final bool? obscureText;
   final TextInputType? textInputType;
   final void Function(String) onChanged;
+  final TextEditingController? controller;
   const TextFieldWidget({
     super.key,
     required this.fieldName,
     this.obscureText = false,
     this.textInputType,
     required this.onChanged,
+    this.controller,
   });
 
   @override
@@ -38,6 +40,7 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: TextFormField(
+          controller: widget.controller,
           onChanged: widget.onChanged,
           keyboardType: widget.textInputType,
           cursorColor: primaryColor,
