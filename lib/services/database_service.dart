@@ -70,6 +70,21 @@ class DatabaseService {
     }
   }
 
+  //updating the notes
+  Future updateTheNote(
+    String noteId,
+    String title,
+    String text,
+  ) async {
+    try {
+      DocumentReference docRef = notesCollection.doc(noteId);
+      await docRef.update({"title": title, "text": text});
+      return "Note updated successfully!";
+    } catch (e) {
+      return "An error occurred!";
+    }
+  }
+
   //returns the list of notes
   Future<List> getNotes() async {
     DocumentSnapshot doc = await usersCollection.doc(uid).get();

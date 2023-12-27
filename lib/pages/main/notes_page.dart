@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:llapp/constants/colors.dart';
 import 'package:llapp/pages/main/create_note_page.dart';
+import 'package:llapp/pages/main/edit_note_page.dart';
 import 'package:llapp/pages/main/settings_page.dart';
 import 'package:llapp/services/database_service.dart';
 import 'package:llapp/widgets/general_widgets.dart/logo_widget.dart';
@@ -195,8 +196,18 @@ class _NotesPageState extends State<NotesPage> {
                       final currentNote = notes[index];
                       final title = currentNote["title"];
                       final text = currentNote["text"];
+                      final noteId = currentNote["noteId"];
 
                       return InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => EditNotePage(
+                              noteTitle: title,
+                              noteText: text,
+                              noteId: noteId,
+                            ),
+                          ));
+                        },
                         onLongPress: () {
                           setState(() {
                             isSelectedList[index] = !isSelectedList[index];
