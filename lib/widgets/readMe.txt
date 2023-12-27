@@ -27,3 +27,16 @@ Eksikler:
 - Kullanıcının notlarını gösterme, güncelleme ve silme gibi işlemleri henüz eklenmedi.
 
  
+
+ 27.12.2023
+
+ Değişiklikler:
+
+ - Authentication sayfalarındaki hatalara çözüm üretildi.
+ - Backend tamamlandı. (Create, Read, Update, Delete (CRUD) işlemleri eklendi.)
+ 
+
+ Eksikler:
+
+ - Profil fotoğrafı ekleme kısmında bir sorun var.
+ - Kullanıcının email adresi değiştirilemiyor.
